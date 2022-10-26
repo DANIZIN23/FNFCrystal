@@ -45,16 +45,16 @@ class Paths
 		/*
 			if (currentLevel != null)
 			{
-				levelPath = getLibraryPathForce(file, currentLevel);
+				levelPath = SUtil.getPath() + getLibraryPathForce(file, currentLevel);
 				if (OpenFlAssets.exists(levelPath, type))
 					return levelPath;
 
-				levelPath = getLibraryPathForce(file, "shared");
+				levelPath = SUtil.getPath() + getLibraryPathForce(file, "shared");
 				if (OpenFlAssets.exists(levelPath, type))
 					return levelPath;
 		}*/
 
-		var levelPath = getLibraryPathForce(file, "mods");
+		var levelPath = SUtil.getPath() + getLibraryPathForce(file, "mods");
 		if (OpenFlAssets.exists(levelPath, type))
 			return levelPath;
 
@@ -122,7 +122,7 @@ class Paths
 
 	static public function sound(key:String, ?library:String)
 	{
-		return getPath('sounds/$key.$SOUND_EXT', SOUND, library);
+		return getPath(SUtil.getPath() + 'sounds/$key.$SOUND_EXT', SOUND, library);
 	}
 
 	inline static public function soundRandom(key:String, min:Int, max:Int, ?library:String)
@@ -138,7 +138,7 @@ class Paths
 	inline static public function voices(song:String)
 	{
 		var voicePath = 'songs/${song.toLowerCase()}/Voices.$SOUND_EXT';
-		if (!FileSystem.exists(getPath(voicePath, MUSIC, null)))
+		if (!FileSystem.exists(SUtil.getPath() + getPath(voicePath, MUSIC, null)))
 		{
 			voicePath = 'songs/${CoolUtil.swapSpaceDash(song.toLowerCase())}/Voices.$SOUND_EXT';
 		}
@@ -147,10 +147,10 @@ class Paths
 
 	inline static public function inst(song:String)
 	{
-		var instPath = 'songs/${song.toLowerCase()}/Inst.$SOUND_EXT';
+		var instPath = SUtil.getPath() + 'songs/${song.toLowerCase()}/Inst.$SOUND_EXT';
 		if (!FileSystem.exists(getPath(instPath, MUSIC, null)))
 		{
-			instPath = 'songs/${CoolUtil.swapSpaceDash(song.toLowerCase())}/Inst.$SOUND_EXT';
+			instPath = SUtil.getPath() +  'songs/${CoolUtil.swapSpaceDash(song.toLowerCase())}/Inst.$SOUND_EXT';
 		}
 		return getPath(instPath, MUSIC, null);
 	}
