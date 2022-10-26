@@ -176,7 +176,14 @@ class StoryMenuState extends MusicBeatState
 
 		// very unprofessional yoshubs!
 
+		#if android
+		addVirtualPad(LEFT_FULL, A_B);
+		#end
+			
 		updateText();
+	
+	
+	
 	}
 
 	override function update(elapsed:Float)
