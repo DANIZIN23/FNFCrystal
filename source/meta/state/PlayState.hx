@@ -353,6 +353,11 @@ class PlayState extends MusicBeatState
 		dialogueHUD.bgColor.alpha = 0;
 		FlxG.cameras.add(dialogueHUD);
 		
+		#if android
+		addAndroidControls();
+		androidControls.visible = true;	
+		#end
+		
 		if (SONG.song.toLowerCase() == 'thump-thump'){
 			var preloadInvertedMaggie:Character = new Character(0, 0);
 			preloadInvertedMaggie.setCharacter(0, 0, 'maggie-inverted');
