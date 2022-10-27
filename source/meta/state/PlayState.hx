@@ -24,7 +24,7 @@ import flixel.util.FlxTimer;
 import gameObjects.*;
 import gameObjects.userInterface.*;
 import gameObjects.userInterface.notes.*;
-import gameObjects.userInterface.notes.Strumline.UIStaticArrow;
+ // import gameObjects.userInterface.notes.Strumline.UIStaticArrow;
 import meta.*;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
@@ -70,7 +70,7 @@ class PlayState extends MusicBeatState
 	public static var assetModifier:String = 'base';
 	public static var changeableSkin:String = 'default';
 
-	private var unspawnNotes:Array<Note> = [];
+	// private var unspawnNotes:Array<Note> = [];
 	private var ratingArray:Array<String> = [];
 	private var allSicks:Bool = true;
 
