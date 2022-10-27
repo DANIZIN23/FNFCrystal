@@ -24,11 +24,12 @@
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" />
 
 	<!--Mobile-specific-->
-	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" />
+	<window if="mobile" orientation="landscape" fullscreen="true" width="1280" height="720" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export" />
+	<assets path="assets/android" if="android"/>
 	<source path="source" />
 	<assets path="assets" />
 	<assets path="FE-CrashDialog.exe" type="template" if="windows release" />
@@ -42,9 +43,12 @@
 	<haxelib name="flixel-addons" />
 	<haxelib name="hscript" />
 	<haxelib name="flixel-ui" />
-	<haxelib name="polymod"/>
+	<haxelib name="polymod desktop"/>
 	<haxelib name="discord_rpc"/>
+        <haxelib name="extension-androidtools" if="android" />
 
+
+	
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<set name="BUILD_DIR" value="export/debug" if="debug" />
@@ -60,8 +64,8 @@
 	<!--<haxedef name="FLX_NO_NATIVE_CURSOR" />-->
 
 	<!--Optimise inputs, be careful you will get null errors if you don't use conditionals in your game-->
-	<haxedef name="FLX_NO_MOUSE" if="mobile" />
-	<haxedef name="FLX_NO_KEYBOARD" if="mobile" />
+	<haxedef name="FLX_NO_MOUSE" if="desktop" />
+	<haxedef name="FLX_NO_KEYBOARD" if="desktop" />
 	<haxedef name="FLX_NO_TOUCH" if="desktop" />
 	<!--<haxedef name="FLX_NO_GAMEPAD" />-->
 
