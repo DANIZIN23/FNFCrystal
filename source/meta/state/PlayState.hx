@@ -140,7 +140,7 @@ class PlayState extends MusicBeatState
 	public static var daPixelZoom:Float = 6;
 	public static var determinedChartType:String = "";
 
-	// strumlines
+	
 	private var dadStrums:Strumline;
 	private var boyfriendStrums:Strumline;
 
