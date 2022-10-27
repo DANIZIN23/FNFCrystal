@@ -17,6 +17,7 @@ import flixel.math.FlxRect;
 import flixel.system.FlxAssets.FlxSoundAsset;
 import flixel.system.FlxSound;
 import flixel.tweens.FlxEase;
+import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
@@ -24,7 +25,7 @@ import flixel.util.FlxTimer;
 import gameObjects.*;
 import gameObjects.userInterface.*;
 import gameObjects.userInterface.notes.*;
- // import gameObjects.userInterface.notes.Strumline.UIStaticArrow;
+import gameObjects.userInterface.notes.Strumline.UIStaticArrow;
 import meta.*;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
@@ -41,7 +42,7 @@ import sys.io.File;
 
 using StringTools;
 
-#if !html5
+#if windows 
 import meta.data.dependency.Discord;
 #end
 
@@ -70,7 +71,7 @@ class PlayState extends MusicBeatState
 	public static var assetModifier:String = 'base';
 	public static var changeableSkin:String = 'default';
 
-	// private var unspawnNotes:Array<Note> = [];
+	private var unspawnNotes:Array<Note> = [];
 	private var ratingArray:Array<String> = [];
 	private var allSicks:Bool = true;
 
@@ -140,10 +141,10 @@ class PlayState extends MusicBeatState
 	public static var determinedChartType:String = "";
 
 	// strumlines
-	// private var dadStrums:Strumline;
-	// private var boyfriendStrums:Strumline;
+	private var dadStrums:Strumline;
+	private var boyfriendStrums:Strumline;
 
-	// public static var strumLines:FlxTypedGroup<Strumline>;
+	public static var strumLines:FlxTypedGroup<Strumline>;
 	public static var strumHUD:Array<FlxCamera> = [];
 
 	private var allUIs:Array<FlxCamera> = [];
@@ -353,9 +354,16 @@ class PlayState extends MusicBeatState
 		dialogueHUD.bgColor.alpha = 0;
 		FlxG.cameras.add(dialogueHUD);
 		
+		
+		var creditTxt = new FlxText(876, 648, 348);
+       creditTxt.text = "PORTED BY\nDANIZIN";
+       creditTxt.setFormat(Paths.font("vcr.ttf"), 30, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLUE);
+       creditTxt.scrollFactor.set();
+       add(creditTxt);
+		
 		#if android
 		addAndroidControls();
-		androidControls.visible = true;	
+		androidControls.visible = true;
 		#end
 		
 		if (SONG.song.toLowerCase() == 'thump-thump'){
@@ -442,15 +450,22 @@ class PlayState extends MusicBeatState
 		// dialogue checks
 		if (dialogueBox != null && dialogueBox.alive) {
 			// wheee the shift closes the dialogue
-			if (FlxG.keys.justPressed.SHIFT){
+			if (FlxG.keys.justPressed.SHIFT #if android || FlxG.android.justReleased.BACK #end){
 				if(curSong.toLowerCase() == 'thorns' || curSong.toLowerCase() == 'senpai'){
 					sound.fadeOut(2.2, 0);
 				}
 				dialogueBox.closeDialog();
 			}
+                           
+		var pressedEnter:Bool = controls.ACCEPT;
 
+			#if android
+			for (touch in FlxG.touches.list)
+				if (touch.justPressed)
+				  pressedEnter = true;
+			#end
 			// the change I made was just so that it would only take accept inputs
-			if (controls.ACCEPT && dialogueBox.textStarted)
+			if (pressedEnter && dialogueBox.textStarted)
 			{
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				dialogueBox.curPage += 1;
@@ -469,7 +484,7 @@ class PlayState extends MusicBeatState
 
 		if (!inCutscene) {
 			// pause the game if the game is allowed to pause and enter is pressed
-			if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
+			if (FlxG.keys.justPressed.ENTER #if android || FlxG.android.justReleased.BACK #end && startedCountdown && canPause)
 			{
 				// update drawing stuffs
 				persistentUpdate = false;
@@ -784,7 +799,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	// function controlPlayer(character:Character, autoplay:Bool, characterStrums:Strumline, holdControls:Array<Bool>, pressControls:Array<Bool>,
+	function controlPlayer(character:Character, autoplay:Bool, characterStrums:Strumline, holdControls:Array<Bool>, pressControls:Array<Bool>,
 			releaseControls:Array<Bool>)
 	{
 		if (!autoplay)
@@ -1168,7 +1183,7 @@ class PlayState extends MusicBeatState
 
 	public static function updateRPC(pausedRPC:Bool)
 	{
-		#if !html5
+		#if windows 
 		var displayRPC:String = (pausedRPC) ? detailsPausedText : songDetails;
 
 		if (health > 0)
@@ -1483,21 +1498,21 @@ class PlayState extends MusicBeatState
 		sharedCurSong = curSong;
 		if(curSong == 'Tutorial'){
 			if(Init.trueSettings.get('BF Skin') == 'Beta'){
-				songMusic = new FlxSound().loadEmbedded(Sound.fromFile('./' + Paths.inst(SONG.song + "-Proto")), false, true);
+				songMusic = new FlxSound().loadEmbedded(Paths.inst(SONG.song + "-Proto"), false, true);
 			}
 			else if(Init.trueSettings.get('BF Skin') == 'Mean'){
-				songMusic = new FlxSound().loadEmbedded(Sound.fromFile('./' + Paths.inst(SONG.song + "-Smug")), false, true);
+				songMusic = new FlxSound().loadEmbedded(Paths.inst(SONG.song + "-Smug"), false, true);
 			}
 			else{
-				songMusic = new FlxSound().loadEmbedded(Sound.fromFile('./' + Paths.inst(SONG.song)), false, true);
+				songMusic = new FlxSound().loadEmbedded(Paths.inst(SONG.song), false, true);
 			}
 		}
 		else{
-			songMusic = new FlxSound().loadEmbedded(Sound.fromFile('./' + Paths.inst(SONG.song)), false, true);
+			songMusic = new FlxSound().loadEmbedded(Paths.inst(SONG.song), false, true);
 		}
 
 		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Sound.fromFile('./' + Paths.voices(SONG.song)), false, true);
+			vocals = new FlxSound().loadEmbedded(Paths.voices(SONG.song), false, true);
 		else
 			vocals = new FlxSound();
 
@@ -1929,11 +1944,11 @@ class PlayState extends MusicBeatState
 		else{
 			dialogPath = Paths.json(SONG.song.toLowerCase() + '/dialogue');
 		}
-		if (sys.FileSystem.exists(dialogPath))
+		if (Assets.exists(dialogPath))
 		{
 			startedCountdown = false;
 
-			dialogueBox = DialogueBox.createDialogue(sys.io.File.getContent(dialogPath));
+			dialogueBox = DialogueBox.createDialogue(Assets.getText(dialogPath));
 			dialogueBox.cameras = [dialogueHUD];
 			dialogueBox.whenDaFinish = startCountdown;
 
