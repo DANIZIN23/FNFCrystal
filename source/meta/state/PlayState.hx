@@ -784,7 +784,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function controlPlayer(character:Character, autoplay:Bool, characterStrums:Strumline, holdControls:Array<Bool>, pressControls:Array<Bool>,
+	// function controlPlayer(character:Character, autoplay:Bool, characterStrums:Strumline, holdControls:Array<Bool>, pressControls:Array<Bool>,
 			releaseControls:Array<Bool>)
 	{
 		if (!autoplay)
