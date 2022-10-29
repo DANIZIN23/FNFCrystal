@@ -177,8 +177,8 @@ class Main extends Sprite
 
 		// begin the discord rich presence
 		#if !html5
-		Discord.initializeRPC();
-		Discord.changePresence('');
+		
+		
 		#end
 
 		// test initialising the player settings
