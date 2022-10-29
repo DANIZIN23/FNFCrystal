@@ -58,7 +58,7 @@ class MainMenuState extends MusicBeatState
 		ForeverTools.resetMenuMusic();
 
 		#if !html5
-		Discord.changePresence('MENU SCREEN', 'Main Menu');
+		
 		#end
 
 		// uh
